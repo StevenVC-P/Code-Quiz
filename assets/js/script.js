@@ -58,9 +58,6 @@ var a1 = document.createElement("button");
 var a2 = document.createElement("button");
 var a3 = document.createElement("button");
 var a4 = document.createElement("button");
-var scoreBox = document.createElement("div");
-var scoreTitle = document.createElement("h3");
-var scoreNumber = document.createElement("p");
 
 //creating accessable variables for tags in HTML
 var startS1 = document.querySelector("#start");
@@ -68,6 +65,9 @@ var timeS1 = document.querySelector("#timer");
 var mainS1 = document.getElementById("main");
 var headS1 = document.getElementById("head");
 var textS1 = document.getElementById("text");
+var scoreBox = document.getElementById("scorebox");
+var scoreTitle = document.getElementById("scoreTitle");
+var scoreNumber = document.getElementById("score");
 
 //variables for used to track score, timer, and state of page
 var mode = "startJS";
@@ -129,15 +129,8 @@ console.log(score);
 
 //function to start asking questions
 function scoreTracker(){
-    mainS1.appendChild(scoreBox);
-    scoreBox.style="border-style:solid, border-color:black, border-width: 5px;"
-    scoreBox.appendChild(scoreTitle);
-    scoreTitle.style="border-style:solid, border-color:black, border-width: 3px;"
-    scoreTitle.textContent = "SCORE";
-    scoreBox.appendChild(scoreNumber);
-    scoreNumber.style="border-style:solid, border-color:black, border-width: 3px;"
+    scoreBox.style.visibility="visible"
     scoreBox.textContent = score;
-    return
 }
 
 function addScore(){
@@ -337,10 +330,10 @@ function endGame(secondLeft, timerInterval){                        //end screen
     a3.removeEventListener("click", endGame);
     a4.removeEventListener("click", endGame);
 
-    console.log(secondsLeft);
+    scoreBox.style.visibility = "hidden";
     timeS1.style.visibility = "hidden";
     headS1.textContent = "Game Over";
-    textS1.textContent = "Here's your score"
+    textS1.textContent = 'Here is your score = ' + score;
     start.textContent = "Restart Quiz?";
     start.style.visibility = "visible";
     return
