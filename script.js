@@ -61,7 +61,6 @@ var a4 = document.createElement("button");
 var scoreBox = document.createElement("div");
 var scoreTitle = document.createElement("h3");
 var scoreNumber = document.createElement("p");
-// var timer = document.createElement("h4");
 
 //creating accessable variables for tags in HTML
 var startS1 = document.querySelector("#start");
@@ -130,11 +129,15 @@ console.log(score);
 
 //function to start asking questions
 function scoreTracker(){
-    main.appendChild(scoreBox);
+    mainS1.appendChild(scoreBox);
+    scoreBox.style="border-style:solid, border-color:black, border-width: 5px;"
     scoreBox.appendChild(scoreTitle);
-    scoreTitle.textContent = "Score";
+    scoreTitle.style="border-style:solid, border-color:black, border-width: 3px;"
+    scoreTitle.textContent = "SCORE";
     scoreBox.appendChild(scoreNumber);
+    scoreNumber.style="border-style:solid, border-color:black, border-width: 3px;"
     scoreBox.textContent = score;
+    return
 }
 
 function addScore(){
@@ -144,6 +147,7 @@ function addScore(){
 
 function decreaseTimer(){
     secondsLeft = secondsLeft - 15;
+
 }
 
 function orderListButtons(){
@@ -156,7 +160,6 @@ function orderListButtons(){
     li2.appendChild(a2);
     li3.appendChild(a3);
     li4.appendChild(a4);
-
 }
 //Creates question content and fills in Changes content to Question One
 function askQuestions(){
@@ -179,7 +182,6 @@ function askQuestions(){
     a2.addEventListener("click", questionTwo);
     a3.addEventListener("click", questionTwo);
     a4.addEventListener("click", questionTwo);
-
 };
 
 //Changes content to Question Two
@@ -272,7 +274,6 @@ function questionFour(){
     a2.addEventListener("click", questionFive);
     a3.addEventListener("click", questionFive);
     a4.addEventListener("click", questionFive);
-
 };
 
 //Changes content to Question Five
@@ -314,18 +315,19 @@ function startTimer(){
         timeS1.style="text-align:center;";
         timeS1.textContent = secondsLeft + " seconds remains.";     //displays the seconds left and text seconds remaining.
 
-        if(secondsLeft == 0) {                                       //if statement that watches for secondsLeft to hit zero
+        if(secondsLeft <= 0) {                                       //if statement that watches for secondsLeft to hit zero
             clearInterval(timerInterval);                           //ends the countdown procedure
             endGame();                                              //moves screen to end
-            return
+            return timerInterval
         }
     }, 1000);
-    return
+    return timerInterval
 }
 
 //function to create gave over screen
-function endGame(timerInterval){                                     //end screen
-
+function endGame(secondLeft, timerInterval){                        //end screen
+    secondsLeft = 0;                                     
+    clearInterval(timerInterval);  
     a3.removeEventListener("click", addScore);
     a1.removeEventListener("click", decreaseTimer);
     a2.removeEventListener("click", decreaseTimer);
@@ -336,7 +338,6 @@ function endGame(timerInterval){                                     //end scree
     a4.removeEventListener("click", endGame);
 
     console.log(secondsLeft);
-    timerInterval = 1;
     timeS1.style.visibility = "hidden";
     headS1.textContent = "Game Over";
     textS1.textContent = "Here's your score"
