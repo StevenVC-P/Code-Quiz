@@ -1,52 +1,4 @@
-// GIVEN I am taking a code quiz
-// WHEN I click the start button  - done
-// THEN a timer starts and I am presented with a question  -done
-// WHEN I answer a question  - done
-// THEN I am presented with another question -done
-// WHEN I answer a question incorrectly  - done
-// THEN time is subtracted from the clock - done
-// WHEN all questions are answered or the timer reaches 0  - done
-// THEN the game is over  - done
-// WHEN the game is over  - done
-// THEN I can save my initials and my score
 
-//Whats going on here?
-//quiz needs a landing page
-//a button to start the quiz
-    //and dont forget the timer
-//change the page to the question and remove the previous content
-    //each question needs some text
-        //some possible answer buttons
-            // one is right
-                //right one adds to the score and moves to the next question
-            // rest are wrong
-                //wrong ones decrease the timers and moves to the next question
-//some more questions
-//after all questions or timer hits zero go to score screen
-//get a score a screen
-    //allow user to add intitals
-//move to record screen
-    //show record of all past attempts
-    //allow user to restart the quiz
-
-//give button a class?
-//button text should change to start over and on next click reset the screen.
-//button should hide during timer and reappear at the start of function endGame
-
-//Sundays ToDo:
-//Reset button works  -done
-//Start button disappears -done
-//Reset button appears -done
-//first question card gets created, alters score and timer
-
-
-//What needs to happen for a score to increase?
-//1) An answer must be given  -done
-//2) The answer chosen must match the correct answer -done
-//3) A message needs to be created
-//4) Message needs to sent to the tracker
-//5) tracker needs to receive the message
-//6) tracker increases the score
 
 //creating variables for items to add to html buttons, score screen maybe?
 var orderedAnswers = document.createElement("ol");
@@ -60,26 +12,43 @@ var a3 = document.createElement("button");
 var a4 = document.createElement("button");
 
 //creating accessable variables for tags in HTML
-var startS1 = document.querySelector("#start");
+var start = document.querySelector("#start");
+var submit = document.getElementById("submit");
 var timeS1 = document.querySelector("#timer");
+var timeBox = document.querySelector("#timerbox");
 var mainS1 = document.getElementById("main");
 var headS1 = document.getElementById("head");
 var textS1 = document.getElementById("text");
-var scoreBox = document.getElementById("scorebox");
-var scoreTitle = document.getElementById("scoreTitle");
-var scoreNumber = document.getElementById("score");
+var scoreBox = document.querySelector("#scorebox");
+var scoreTitle = document.querySelector("#scoreTitle");
+var scoreNumber = document.querySelector("#score");
+var hsBox = document.querySelector("#hsbox")
+var form = document.querySelector("#name")
+var initials = document.querySelector("#username")
+var hsTrack = document.querySelector("#userscores")
 
+var newInitials = localStorage.getItem("initials");
+var newScore = localStorage.getItem("New Score");
+var NewHS = [];
+
+console.log(scoreBox);
 //variables for used to track score, timer, and state of page
-var mode = "startJS";
 var secondsLeft;
-var score;
+var score = 0;
+
+scoreNumber.textContent = score;
+
+scoreBox.style.visibility = "hidden";
+timeBox.style.display = "none";
+hsBox.style.display = "none";
+
 
 //creating object to hold all question information
 const questions = {
 };
     
 var q1 = {
-    question: "I'm cute as a ",
+    question: "Your cute as a ",
     a: "Main",
     b: "Header",
     c: "Button",
@@ -127,20 +96,22 @@ console.log(questions);
 console.log(questions.content5.a);
 console.log(score);
 
-//function to start asking questions
-function scoreTracker(){
-    scoreBox.style.visibility="visible"
-    scoreBox.textContent = score;
-}
+function init(){
+    timeBox.style.display = "none";
+    scoreBox.style.visibility = "hidden";
+    form.style.display = "none"; 
+    hsBox.style.display = "none";
+    start.style.visibility = "visible";
 
+}
 function addScore(){
     score++
     console.log(score);
+    scoreNumber.textContent = score;
 }
 
 function decreaseTimer(){
     secondsLeft = secondsLeft - 15;
-
 }
 
 function orderListButtons(){
@@ -156,9 +127,13 @@ function orderListButtons(){
 }
 //Creates question content and fills in Changes content to Question One
 function askQuestions(){
+
     score = 0;
     headS1.textContent = "Welcome to Dat Code Quiz!";
     textS1.textContent = questions.content1.question;
+    timeBox.style.display = "block";
+    scoreBox.style.visibility = "visible";
+    start.style.visibility = "hidden";
 
     orderListButtons();
 
@@ -175,6 +150,7 @@ function askQuestions(){
     a2.addEventListener("click", questionTwo);
     a3.addEventListener("click", questionTwo);
     a4.addEventListener("click", questionTwo);
+    startTimer();
 };
 
 //Changes content to Question Two
@@ -301,7 +277,6 @@ function questionFive(){
 
 //function for timer 
 function startTimer(){
-    start.style.visibility = "hidden";
     secondsLeft = 90
     var timerInterval = setInterval(function() {
         secondsLeft--;                                              //decreases seconds left DISPLAY by 1
@@ -318,7 +293,7 @@ function startTimer(){
 }
 
 //function to create gave over screen
-function endGame(secondLeft, timerInterval){                        //end screen
+function endGame(timerInterval){                        //end screen
     secondsLeft = 0;                                     
     clearInterval(timerInterval);  
     a3.removeEventListener("click", addScore);
@@ -330,18 +305,57 @@ function endGame(secondLeft, timerInterval){                        //end screen
     a3.removeEventListener("click", endGame);
     a4.removeEventListener("click", endGame);
 
-    scoreBox.style.visibility = "hidden";
-    timeS1.style.visibility = "hidden";
+
+    scoreBox.style.display = "block";
+    scoreNumber.style.display = "block";
+    timeBox.style.display = "none";
+    form.style.display = "block";
     headS1.textContent = "Game Over";
-    textS1.textContent = 'Here is your score = ' + score;
+    textS1.textContent = 'Your score = ' + score;
     start.textContent = "Restart Quiz?";
     start.style.visibility = "visible";
-    return
+    hsBox.style.display = "block";
+
 }
 
+function buildHSTable(){
+    NewHS.forEach(function({player,newScore}){
+       var list = document.createElement("ul");
+       hsBox.appendChild(list);
+       var li = document.createElement("li");
+       li.textContent= (player + "-" + newScore);
+       list.appendChild(li); 
+    });
+
+};
+
+function addHighScore(){ 
+    var playerScore = {
+        player: newInitials,
+        newScore: newScore
+    }
+    NewHS.push(playerScore);
+
+    buildHSTable();     
+
+};
+
+submit.addEventListener("click", function(event) {
+    event.preventDefault()
+    var user = initials.value;
+    localStorage.setItem("initials", user);
+    var newScore = score;
+    localStorage.setItem("New Score", newScore)
+    addHighScore();
+});
+
+
+init();
 start.addEventListener("click", askQuestions);
-start.addEventListener("click", startTimer);
-start.addEventListener("click", scoreTracker);
 
 
+// display
+// none
+// block
 
+//PLAYERSsCOREaRRAY.FOReACH(function())

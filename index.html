@@ -4,20 +4,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <title>Dat Code Quiz!</title>
 </head>
 <body>
     <main id ="main">
-        <header>
+        <div class="box" id="scorebox">
+            <h3 class="title" id="scoretitle">Current Score</h3>
+            <p class="tracker" id="score"></p>
+        </div>
+        <header id="quiz">
             <h1 id ="head">Welcome to Dat Code Quiz!</h1>
             <p id="text">Here's dat information about how Dat Code Quiz works!</p>
-            <button id="start">I'm dat button!</button>
+            <button id="start">Begin</button>
+            <form id="name">
+                <p>
+                    <label for="name">Your Initals</label>
+                    <input id="username" type="text" placeholder="Initals" />
+                </p>
+                <button id="submit">Submit</button>
+            </form>
         </header>
-        <h4 id="timer"></h4>
-        <div id=scorebox>
-            <h3 id="scoretitle">Current Score</h3>
-            <p id="score"></p>
+        <div class="box" id="timerbox">
+            <h3 class="title" id="timertitle">Current Time</h3>
+            <h4 class="tracker" id="timer"></h4>
         </div>
+
+        <div class="box" id="hsbox">
+            <h3 class="title" id="hstitle">Previous HighScores</h3>
+            <p>Initials and Score</p>
+            <P id="userscores"></P>
+            
+        </div>
+
     </main>
     <script src=".//assets/js/script.js"></script>
 </body>
