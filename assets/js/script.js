@@ -13,7 +13,7 @@ var a4 = document.createElement("button");
 
 //creating accessable variables for tags in HTML
 var start = document.querySelector("#start");
-var submit = document.getElementById("submit");
+var submit = document.querySelector("#submit");
 var timeS1 = document.querySelector("#timer");
 var timeBox = document.querySelector("#timerbox");
 var mainS1 = document.getElementById("main");
@@ -22,14 +22,20 @@ var textS1 = document.getElementById("text");
 var scoreBox = document.querySelector("#scorebox");
 var scoreTitle = document.querySelector("#scoreTitle");
 var scoreNumber = document.querySelector("#score");
-var hsBox = document.querySelector("#hsbox")
-var form = document.querySelector("#name")
-var initials = document.querySelector("#username")
+var hsBox = document.querySelector("#hsbox");
+var form = document.querySelector("#name");
+var initials = document.querySelector("#username");
 var hsTrack = document.querySelector("#userscores")
 
-var newInitials = localStorage.getItem("initials");
-var newScore = localStorage.getItem("New Score");
-var NewHS = [];
+// var highScoreDisplayName = querySelector("#name");
+// var highScoreDisplayScore = querySelector("#userscores");
+
+// var newScore = localStorage.getItem("new_score");
+// var newScore = localStorage.getItem("New Score");
+var NewHS = JSON.parse(localStorage.getItem("newScore")) || [];
+
+
+// var lastGrade = JSON.parse(localStorage.getItem("studentGrade"));
 
 console.log(scoreBox);
 //variables for used to track score, timer, and state of page
@@ -315,47 +321,45 @@ function endGame(timerInterval){                        //end screen
     start.textContent = "Restart Quiz?";
     start.style.visibility = "visible";
     hsBox.style.display = "block";
+    submit.style.display = "block";
 
 }
 
-function buildHSTable(){
-    NewHS.forEach(function({player,newScore}){
-       var list = document.createElement("ul");
-       hsBox.appendChild(list);
-       var li = document.createElement("li");
-       li.textContent= (player + "-" + newScore);
-       list.appendChild(li); 
+function buildHSList() {
+    // var scoreContainer = document.createElement("div");
+
+    NewHS.forEach(function ({ player, newScore }) {
+        var list = document.createElement("ul");
+        hsBox.appendChild(list);
+        var li = document.createElement("li");
+        li.textContent = (player + "-" + newScore);
+        list.appendChild(li);
     });
+}
+//     start.addEventListener("click", deleteScore(scoreContainer))
 
-};
 
-function addHighScore(){ 
-    var playerScore = {
-        player: newInitials,
-        newScore: newScore
-    }
-    NewHS.push(playerScore);
+// };
 
-    buildHSTable();     
+// function deleteScore(scoreContainer){
+//     scoreContainer.remove();
+//     askQuestions();
+// };
 
-};
 
 submit.addEventListener("click", function(event) {
-    event.preventDefault()
-    var user = initials.value;
-    localStorage.setItem("initials", user);
-    var newScore = score;
-    localStorage.setItem("New Score", newScore)
-    addHighScore();
+    event.preventDefault();
+    var playerScore = {
+        player: initials.value,
+        newScore: score
+    }
+    console.log(playerScore);
+    NewHS.push(playerScore);
+    console.log(NewHS);
+    localStorage.setItem("newScore", JSON.stringify(NewHS));
+    buildHSList();
+    submit.style.display = "none";
 });
 
-
 init();
-start.addEventListener("click", askQuestions);
-
-
-// display
-// none
-// block
-
-//PLAYERSsCOREaRRAY.FOReACH(function())
+start.addEventListener("click", askQuestions)
