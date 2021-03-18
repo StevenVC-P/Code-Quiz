@@ -23,7 +23,7 @@ var scoreBox = document.querySelector("#scorebox");
 var scoreTitle = document.querySelector("#scoreTitle");
 var scoreNumber = document.querySelector("#score");
 var hsBox = document.querySelector("#hsbox");
-var form = document.querySelector("#name");
+var formEl = document.querySelector("#name");
 var initials = document.querySelector("#username");
 var hsTrack = document.querySelector("#userscores")
 
@@ -47,6 +47,12 @@ scoreNumber.textContent = score;
 scoreBox.style.visibility = "hidden";
 timeBox.style.display = "none";
 hsBox.style.display = "none";
+timeBox.style.display = "none";
+scoreBox.style.visibility = "hidden";
+formEl.style.visibility = "hidden"; 
+hsBox.style.display = "none";
+start.style.visibility = "visible";
+
 
 
 //creating object to hold all question information
@@ -102,14 +108,8 @@ console.log(questions);
 console.log(questions.content5.a);
 console.log(score);
 
-function init(){
-    timeBox.style.display = "none";
-    scoreBox.style.visibility = "hidden";
-    form.style.display = "none"; 
-    hsBox.style.display = "none";
-    start.style.visibility = "visible";
 
-}
+
 function addScore(){
     score++
     console.log(score);
@@ -315,7 +315,7 @@ function endGame(timerInterval){                        //end screen
     scoreBox.style.display = "block";
     scoreNumber.style.display = "block";
     timeBox.style.display = "none";
-    form.style.display = "block";
+    formEl.style.visibility = "visible";
     headS1.textContent = "Game Over";
     textS1.textContent = 'Your score = ' + score;
     start.textContent = "Restart Quiz?";
@@ -325,41 +325,43 @@ function endGame(timerInterval){                        //end screen
 
 }
 
-function buildHSList() {
-    // var scoreContainer = document.createElement("div");
 
-    NewHS.forEach(function ({ player, newScore }) {
-        var list = document.createElement("ul");
-        hsBox.appendChild(list);
-        var li = document.createElement("li");
-        li.textContent = (player + "-" + newScore);
-        list.appendChild(li);
-    });
-}
-//     start.addEventListener("click", deleteScore(scoreContainer))
+start.addEventListener("click", askQuestions);
 
 
-// };
+// function buildHSList() {
+//     // var scoreContainer = document.createElement("div");
 
-// function deleteScore(scoreContainer){
-//     scoreContainer.remove();
-//     askQuestions();
-// };
+//     NewHS.forEach(function ({ player, newScore }) {
+//         var list = document.createElement("ul");
+//         hsBox.appendChild(list);
+//         var li = document.createElement("li");
+//         li.textContent = (player + "-" + newScore);
+//         list.appendChild(li);
+//     });
+// }
+// //     start.addEventListener("click", deleteScore(scoreContainer))
 
 
-submit.addEventListener("click", function(event) {
-    event.preventDefault();
-    var playerScore = {
-        player: initials.value,
-        newScore: score
-    }
-    console.log(playerScore);
-    NewHS.push(playerScore);
-    console.log(NewHS);
-    localStorage.setItem("newScore", JSON.stringify(NewHS));
-    buildHSList();
-    submit.style.display = "none";
-});
+// // };
 
-init();
-start.addEventListener("click", askQuestions)
+// // function deleteScore(scoreContainer){
+// //     scoreContainer.remove();
+// //     askQuestions();
+// // };
+
+
+// submit.addEventListener("click", function(event) {
+//     event.preventDefault();
+//     var playerScore = {
+//         player: initials.value,
+//         newScore: score
+//     }
+//     console.log(playerScore);
+//     NewHS.push(playerScore);
+//     console.log(NewHS);
+//     localStorage.setItem("newScore", JSON.stringify(NewHS));
+//     buildHSList();
+//     submit.style.display = "none";
+// });
+
